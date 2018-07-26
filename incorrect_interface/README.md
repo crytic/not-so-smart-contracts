@@ -1,12 +1,10 @@
-# Wrong interface
+# Incorrect interface
 
 ## Principle:
-- Wrong contract interface
+- Incorrect contract interface
 
 ## Detail
-The interface is wrongly defined. `Alice.set(uint)` takes an `uint` in `Bob.sol` but `Alice.set(int)` a `int` in `Alice.sol`.
-The two interface will produces two differents method ids. 
-As a result bob will call the fallback function of alice, instead of `set`.
+The interface is incorrectly defined. `Alice.set(uint)` takes an `uint` in `Bob.sol` but `Alice.set(int)` a `int` in `Alice.sol`. The two interfaces will produce two differents method IDs. As a result, Bob will call the fallback function of Alice rather than of `set`.
 
 ## Running example
 First, get the bytecode and the abi of the contracts:

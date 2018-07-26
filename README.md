@@ -9,7 +9,7 @@ This repository contains examples of common Ethereum smart contract vulnerabilit
 - Reentrancy
 - Unchecked External Call
 - Unprotected Function
-- Wrong Interface
+- Incorrect Interface
 
 ## Credits
 
