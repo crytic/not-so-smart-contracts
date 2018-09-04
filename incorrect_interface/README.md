@@ -4,8 +4,7 @@ As a result, when the interfact is called, the fallback method will be executed.
 
 ## Attack Scenario
 
-- The interface for a contract defines `set(uint)` but the implementation defines `set(int)`. Anyone calling
-`set` via the interface will execute the fallback function.
+- The interface is incorrectly defined. `Alice.set(uint)` takes an `uint` in `Bob.sol` but `Alice.set(int)` a `int` in `Alice.sol`. The two interfaces will produce two differents method IDs. As a result, Bob will call the fallback function of Alice rather than of `set`.
 
 ## Mitigations
 
