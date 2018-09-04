@@ -1,4 +1,4 @@
-# Wrong interface
+# Incorrect interface
 A contract interface defines functions with a different type signature than the implementation, causing two different method id's to be created.
 As a result, when the interfact is called, the fallback method will be executed.
 
@@ -11,6 +11,9 @@ As a result, when the interfact is called, the fallback method will be executed.
 Verify that type signatures are identical between inferfaces and implementations.
 
 ## Example
+
+We now walk through how to find this vulnerability in the [Alice](incorrect_interface/Alice.sol) and [Bob](incorrect_interface/Bob.sol) contracts in this repo.
+
 First, get the bytecode and the abi of the contracts:
 ```̀bash 
 $ solc --bin Alice.sol
