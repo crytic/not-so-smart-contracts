@@ -1,15 +1,21 @@
 # (Not So) Smart Contracts
 
 This repository contains examples of common Ethereum smart contract vulnerabilities, including code from real smart contracts.
+It also includes a repository and analysis of several [honeypots](honeypots/)
 
 ## Vulnerabilities
 
-- Integer Overflow
-- Missing Constructor
-- Reentrancy
-- Unchecked External Call
-- Unprotected Function
-- Incorrect Interface
+- [Bad randomness](bad_randomness/): Contract attempts to get on-chain randomness, which can be manipulated by users
+- [Denial of Service](denial_of_service/): Attacker stalls contract execution by failing in strategic way
+- [Incorrect Interface](incorrect_interface/): Implementation uses different function signatures than interface
+- [Integer Overflow](integer_overflow/): Arithmetic in Solidity (or EVM) is not safe by default
+- [Forced Ether Reception](forced_ether_reception/): Contracts can be forced to receive Ether
+- [Missing Constructor](missing_constructor/): Anyone can become owner of contract due to missing constructor
+- [Race Condition](race_condition/): Transactions can be frontrun on the blockchain
+- [Reentrancy](reentrancy/): Calling external contracts gives them control over execution
+- [Unchecked External Call](unchecked_external_call/): Some Solidity operations silently fail
+- [Unprotected Function](unprotected_function/): Failure to use function modifier allows attacker to manipulate contract
+- [Variable Shadowing](variable%20shadowing/): Local variable name is identical to one in outer scope
 
 ## Credits
 
