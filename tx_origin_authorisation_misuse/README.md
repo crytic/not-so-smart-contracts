@@ -1,8 +1,8 @@
 # tx.origin misuse
 Scenario:
 
-Some incompetent developerr creates a service FreeSuperSecuredWalletsFactory (Let's call him Danny) 
-which allows to create wallet just by sending ETH to factory, problem is this wallet uses tx.origin for authorisation
+Some incompetent developer creates a service FreeSuperSecuredWalletsFactory (Let's call him Danny) 
+which allows to create wallet just by sending ETH to factory, problem is this wallet uses tx.origin for authorization
 
 Some not too smart user uses this service, send 1 ETH (Let's call him Bob) to FreeSuperSecuredWalletsFactory
 

