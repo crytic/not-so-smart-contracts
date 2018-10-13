@@ -20,3 +20,5 @@ which drain FreeSuperSecuredWallet of a msg.sender if particular sender owned on
 
 
 As You can see unsecured wallet can be drained when You interact with completly unrelated service
+For more information look at:
+https://medium.com/coinmonks/solidity-tx-origin-attacks-58211ad95514
