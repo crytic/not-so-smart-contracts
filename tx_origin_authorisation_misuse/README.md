@@ -1,5 +1,5 @@
 # tx.origin misuse
-A Victim contract identifies caller by tx.origin instead of msg.sender 
+A `Victim` contract identifies caller by `tx.origin` instead of `msg.sender`.
 That may allow some external malicious smart contract to act on behalf of origin user and attack Victim contract
 
 ## Attack Scenario
