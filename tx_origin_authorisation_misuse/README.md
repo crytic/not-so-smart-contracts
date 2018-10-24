@@ -4,7 +4,13 @@ This may allow an external malicious contract to act on behalf of origin user an
 
 ## Attack Scenario
 
-Some developer (not necesarily attacker, neither victim)  creates a service FreeSuperSecuredWalletsFactory (Let's call him Danny) 
+### Abstract
+
+Bob using FreeSuperSecuredWalletsFactory provided by Danny expose funds stored in FreeSuperSecuredWallet to attack while using completely separate service FakeAirdrop created by Drake that exploits Weaknes in FreeSuperSecuredWallet inplementation. The key point 
+is that malicious Smart Contracts (FakeAirdrop) in order exploit weakness in FreeSuperSecuredWallet must be called by victim (Bob) itself. 
+
+### Full Scenario 
+Some developer (not necesarily attacker, neither victim)  creates a service FreeSuperSecuredWalletsFactory (Danny) 
 which allows to create wallet just by sending ETH to factory, problem is this wallet uses tx.origin for authorization
 
 Some user (future victim) uses this service, send 1 ETH (Let's call him Bob) to FreeSuperSecuredWalletsFactory
@@ -19,7 +25,7 @@ if(listOfWalletsToSteelFrom._wallets(msg.sender)!=address(0)){
 }
 ```
 
-which drain FreeSuperSecuredWallet of a msg.sender if particular sender owned one
+which drain FreeSuperSecuredWallet of a msg.sender if particular sender owned one. 
 
 ## How to reproduce example
 
