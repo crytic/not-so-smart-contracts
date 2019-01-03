@@ -2,6 +2,8 @@
 
 This repository contains examples of common Ethereum smart contract vulnerabilities, including code from real smart contracts. Use Not So Smart Contracts to learn about EVM and Solidity vulnerabilities, as a reference when performing security reviews, and as a benchmark for security and analysis tools.
 
+In addition, we have also included analysis of several honeypots.
+
 ## Features
 
 Each _Not So Smart Contract_ includes a standard set of information:
@@ -11,8 +13,6 @@ Each _Not So Smart Contract_ includes a standard set of information:
 * Recommendations to eliminate or mitigate the vulnerability
 * Real-world contracts that exhibit the flaw
 * References to third-party resources with more information
-
-Bonus! We have also included a repository and analysis of several [honeypots](honeypots).
 
 ## Vulnerabilities
 
@@ -29,6 +29,23 @@ Bonus! We have also included a repository and analysis of several [honeypots](ho
 | [Unprotected Function](unprotected_function) | Failure to use function modifier allows attacker to manipulate contract |
 | [Variable Shadowing](variable%20shadowing/) | Local variable name is identical to one in outer scope |
 | [Wrong Constructor Name](wrong_constructor_name) | Anyone can become owner of contract due to missing constructor |
+
+## Honeypots
+
+The Ethereum community has discovered a variety of honeypot smart contracts operating on the mainnet blockchain - something that we have been investigating for quite some time. They’re designed to entice security researchers and developers to deposit Ethereum into the contract to obtain a chance to exploit ‘easy vulnerabilities’ in Solidity. However, once payment is deposited, the contracts will deploy subtle traps and quirks to lock out the user from successfully claiming the “prize.”
+
+The traps vary in sophistication. Our blockchain security research has turned up six fundamental archetypes that construct most of these honeypots. Many seem to be moderately successful - trapping around 0.1 ether and containing approximately 5 transactions on average. Yet for every successful trap, a large minority of contracts had no interaction at all. These ‘failed honeypots’ most likely served the original developers as a testing environment. The existence of these contracts must be taken into account by academic researchers quantifying the effectiveness of tools and analysis methods for the Ethereum blockchain, given the potential to skew research results.
+
+Versions of the most recent compilers will emit warnings of most of these traps during compilation. However, some of the contracts rely on logic gaps in the solc compiler and the Solidity language itself.
+
+| Honeypot Archetype | Description|
+| --- | --- |
+| [GiftBox](honeypots/GiftBox) | Etherscan doesn't show you everything! |
+| [King of the Hill](honeypots/KOTH) | Variable shadowing of the `owner` ensures it is never reassigned. |
+| [Lottery](honeypots/Lottery) | Unitialized structs default to acting like storage pointers. |
+| [Multiplicator](honeypots/Multiplicator) | Abuses global variable semantics of `this.balance`. |
+| [PrivateBank](honeypots/PrivateBank) | External constructor of a `Log` contract does not mirror code included in the contract. |
+| [VarLoop](honeypots/VarLoop) | Implicit conversion of `var` type variable into `uint8` causes payment loop to short-circuit. |
 
 ## Credits
 
