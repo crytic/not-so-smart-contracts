@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity >0.6.0;
+
 contract theRun {
         uint private Balance = 0;
         uint private Payout_id = 0;
@@ -6,12 +10,12 @@ contract theRun {
         uint private Min_multiplier = 1100; //110%
         
 
-        //Fees are necessary and set very low, to maintain the website. The fees will decrease each time they are collected.
-        //Fees are just here to maintain the website at beginning, and will progressively go to 0% :)
+        // Fees are necessary and set very low, to maintain the website. The fees will decrease each time they are collected.
+        // Fees are just here to maintain the website at beginning, and will progressively go to 0% :)
         uint private fees = 0;
-        uint private feeFrac = 20; //Fraction for fees in per"thousand", not percent, so 20 is 2%
+        uint private feeFrac = 20; // Fraction for fees in per "thousand", not percent, so 20 is 2%.
         
-        uint private PotFrac = 30; //For the WinningPot ,30=> 3% are collected. This is fixed.
+        uint private PotFrac = 30; // For the WinningPot, 30 => 3% are collected. This is fixed.
         
         
         address private admin;
@@ -20,7 +24,7 @@ contract theRun {
             admin = msg.sender;
         }
 
-        // added the semicolon in the modifier on line 24
+        // Added the semicolon in the modifier on line 24
         modifier onlyowner {
            require (msg.sender == admin) 
            _;  
@@ -34,22 +38,26 @@ contract theRun {
 
         Player[] private players;
 
-        //--Fallback function
+        // -- Fallback function
         function() {
             init();
         }
 
-        //--initiated function
+        // -- Initiated function
         function init() private {
-            uint deposit=msg.value;
-            if (msg.value < 500 finney) { //only participation with >1 ether accepted
+            uint deposit = msg.value;
+            
+            // 500 finney is 0.5 ether so msg.value should be >= 1000 finney to be accepted
+            
+            if (msg.value < 1000 finney) { //only participation with >1 ether accepted
                     msg.sender.send(msg.value);
                     return;
             }
             if (msg.value > 20 ether) { //only participation with <20 ether accepted
                     msg.sender.send(msg.value- (20 ether));
-                    deposit=20 ether;
+                    deposit = 20 ether;
             }
+            
             Participate(deposit);
         }
 
@@ -58,38 +66,38 @@ contract theRun {
                 //calculate the multiplier to apply to the future payout
                 
 
-                uint total_multiplier=Min_multiplier; //initiate total_multiplier
-                if(Balance < 1 ether && players.length>1){
-                    total_multiplier+=100; // + 10 %
+                uint total_multiplier = Min_multiplier; // Initiate total_multiplier
+                if(Balance < 1 ether && players.length > 1){
+                    total_multiplier += 100; // + 10 %
                 }
-                if( (players.length % 10)==0 && players.length>1 ){ //Every 10th participant gets a 10% bonus, play smart !
-                    total_multiplier+=100; // + 10 %
+                if((players.length % 10) == 0 && players.length > 1){ // Every 10th participant gets a 10% bonus, play smart!
+                    total_multiplier += 100; // + 10 %
                 }
                 
-                //add new player in the queue !
+                // Add new player in the queue!
                 players.push(Player(msg.sender, (deposit * total_multiplier) / 1000, false));
                 
-                //--- UPDATING CONTRACT STATS ----
+                // --- UPDATING CONTRACT STATS ----
                 WinningPot += (deposit * PotFrac) / 1000; // take some 3% to add for the winning pot !
                 fees += (deposit * feeFrac) / 1000; // collect maintenance fees 2%
                 Balance += (deposit * (1000 - ( feeFrac + PotFrac ))) / 1000; // update balance
 
                 // Winning the Pot :) Condition : paying at least 1 people with deposit > 2 ether and having luck !
-                if(  ( deposit > 1 ether ) && (deposit > players[Payout_id].payout) ){ 
-                    uint roll = random(100); //take a random number between 1 & 100
-                    if( roll % 10 == 0 ){ //if lucky : Chances : 1 out of 10 ! 
+                if( ( deposit > 1 ether ) && (deposit > players[Payout_id].payout)){ 
+                    uint roll = random(100); // Take a random number between 1 & 100
+                    if( roll % 10 == 0 ){ // If lucky : Chances : 1 out of 10 ! 
                         msg.sender.send(WinningPot); // Bravo !
-                        WinningPot=0;
+                        WinningPot = 0;
                     }
                     
                 }
                 
-                //Classic payout for the participants
-                while ( Balance > players[Payout_id].payout ) {
+                // Classic payout for the participants
+                while (Balance > players[Payout_id].payout) {
                     Last_Payout = players[Payout_id].payout;
-                    players[Payout_id].addr.send(Last_Payout); //pay the man, please !
-                    Balance -= players[Payout_id].payout; //update the balance
-                    players[Payout_id].paid=true;
+                    players[Payout_id].addr.send(Last_Payout); // Pay the man, please !
+                    Balance -= players[Payout_id].payout; // Update the balance
+                    players[Payout_id].paid = true;
                     
                     Payout_id += 1;
                 }
@@ -100,18 +108,18 @@ contract theRun {
     uint256 constant private salt =  block.timestamp;
     
     function random(uint Max) constant private returns (uint256 result){
-        //get the best seed for randomness
+        // Get the best seed for randomness
         uint256 x = salt * 100 / Max;
-        uint256 y = salt * block.number / (salt % 5) ;
-        uint256 seed = block.number/3 + (salt % 300) + Last_Payout +y; 
+        uint256 y = salt * block.number / (salt % 5);
+        uint256 seed = block.number/3 + (salt % 300) + Last_Payout + y;
         uint256 h = uint256(block.blockhash(seed)); 
     
-        return uint256((h / x)) % Max + 1; //random number between 1 and Max
+        return uint256((h / x)) % Max + 1; // Random number between 1 and Max
     }
     
     
 
-    //---Contract management functions
+    // --- Contract management functions
     function ChangeOwnership(address _owner) onlyowner {
         admin = _owner;
     }
@@ -124,7 +132,7 @@ contract theRun {
     }
     
     
-    //Fee functions for creator
+    // Fee functions for creator
     function CollectAllFees() onlyowner {
         if (fees == 0) throw;
         admin.send(fees);
@@ -133,13 +141,13 @@ contract theRun {
     }
     
     function GetAndReduceFeesByFraction(uint p) onlyowner {
-        if (fees == 0) feeFrac-=1; //Reduce fees.
-        admin.send(fees / 1000 * p);//send a percent of fees
+        if (fees == 0) feeFrac-=1; // Reduce fees.
+        admin.send(fees / 1000 * p);// Send a percent of fees
         fees -= fees / 1000 * p;
     }
         
 
-//---Contract informations
+// --- Contract informations
 function NextPayout() constant returns(uint NextPayout) {
     NextPayout = players[Payout_id].payout /  1 wei;
 }
