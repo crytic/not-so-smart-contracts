@@ -20,7 +20,8 @@ contract theRun {
             admin = msg.sender;
         }
 
-        modifier onlyowner {if (msg.sender == admin) _  }
+        // added the semicolon in the modifier on line 24
+        modifier onlyowner {if (msg.sender == admin) _;  }
 
         struct Player {
             address addr;
