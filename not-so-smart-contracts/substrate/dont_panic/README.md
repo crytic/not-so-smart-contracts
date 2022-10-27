@@ -29,6 +29,8 @@ In the [`pallet-dont-panic`](./pallet-dont-panic.rs) pallet, the `find_important
 
 However, notice that there is no check before the array indexing to see whether the length of `useful_amounts` is greater than zero. Thus, if `useful_amounts` is empty, the indexing will cause an array out-of-bounds error which will make the node panic. Since the `find_important_value` function is callable by anyone, an attacker can set `useful_amounts` to an empty array and spam the network with malicious transactions to launch a DoS attack.  
 
+Note: unimplemented code, denoted by `todo`'s in the code can also cause such panics.
+
 # Mitigations
 - Write non-throwing Rust code (e.g. prefer returning [`Result`](https://paritytech.github.io/substrate/master/frame_support/dispatch/result/enum.Result.html) types, use [`ensure!`](https://paritytech.github.io/substrate/master/frame_support/macro.ensure.html), etc.).
 - Proper data validation of all input parameters is crucial to ensure that an unexpected panic does not occur.
