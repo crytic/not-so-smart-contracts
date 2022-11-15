@@ -27,11 +27,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install slither-analyzer
-          pip install "solc-select>=v1.0.0b1"
+          pip install slither-analyzer==0.9.1
+          pip install "solc-select>=v1.0.01"
           solc-select install 0.4.20
           solc-select use 0.4.20
           
       - name: Lint Solidity Files
         run: |
-          slither "${{ matrix.file }}"
+          slither "${{ matrix.file }} --no-fail-pedantic"
