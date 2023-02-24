@@ -1,3 +1,6 @@
+
+No-so-smart-contracts is now in [building-secure-contracts](https://github.com/crytic/building-secure-contracts) (see [https://secure-contracts.com/](https://secure-contracts.com/))
+
 # (Not So) Smart Contracts
 
 This repository contains examples of common Ethereum smart contract vulnerabilities, including code from real smart contracts. Use Not So Smart Contracts to learn about EVM and Solidity vulnerabilities, as a reference when performing security reviews, and as a benchmark for security and analysis tools.
