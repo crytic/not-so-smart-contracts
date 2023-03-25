@@ -1,0 +1,37 @@
+name: Lint Solidity Files
+on: [push, pull_request]
+jobs:
+  solidity-files:
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ steps.set-matrix.outputs.files }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: echo "::set-output name=files::$(find . -type f -name "*.sol" | jq -R -s -c 'split("\n")[:-1]')"
+      
+  check:
+    needs: solidity-files
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+          file: ${{ fromJSON(needs.solidity-files.outputs.files) }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: |
+          pip install slither-analyzer==0.9.1
+          pip install "solc-select>=v1.0.01"
+          solc-select install 0.4.20
+          solc-select use 0.4.20
+          
+      - name: Lint Solidity Files
+        run: |
+          slither "${{ matrix.file }} --no-fail-pedantic"
